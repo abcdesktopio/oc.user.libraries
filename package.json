@@ -1,6 +1,6 @@
 {
   "name": "oc.user.libraries",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Used by all deamons",
   "author": "Kevin VOYER",
   "license": "MIT",

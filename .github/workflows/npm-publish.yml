@@ -21,7 +21,7 @@ jobs:
         with:
           node-version: 14.15
           registry-url: https://npm.pkg.github.com/
-      - run: yarn
-      - run: yarn publish
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+      - uses: JS-DevTools/npm-publish@v1
+        with:
+          token: ${{ secrets.NPM_TOKEN }}
