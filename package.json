@@ -1,5 +1,5 @@
 {
-  "name": "common-libraries",
+  "name": "oc.user.libraries",
   "version": "1.0.0",
   "description": "Used by all deamons",
   "author": "Kevin VOYER",
