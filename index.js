@@ -114,9 +114,10 @@ const listenDaemonOnContainerIpAddrUsingFastify = async (fastify, PORT, messageO
         process.exit(1);
     }
 
-    if (process.env.TESTING_MODE !== 'true') {
-        fastify.addHook('onRequest', hookFastifyIpFilter);
-    }
+    // replaced by process.env.DISABLE_REMOTEIP_FILTERING
+    // if (process.env.TESTING_MODE !== 'true') {
+    //    fastify.addHook('onRequest', hookFastifyIpFilter);
+    // }
 
     let containerIpAddress;
     if ('CONTAINER_IP_ADDR' in process.env) {
