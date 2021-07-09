@@ -15,7 +15,7 @@ const ipFilter = require('./ip-filter.js');
 
 const assertIp = async remoteIp => {
 
-    if('DISABLE_REMOTEIP_FILTERING' in process.env)
+    if( process.env.DISABLE_REMOTEIP_FILTERING === 'enabled' )
 	return;
 
     // We check caller IP before accepting connexion
