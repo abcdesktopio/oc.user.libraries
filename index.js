@@ -67,9 +67,10 @@ const listenDaemonOnContainerIpAddr = (app, PORT, messageOnListening = '') => {
         process.exit(1);
     }
 
-    if (process.env.TESTING_MODE !== 'true') {
-        app.use(middleWareExpressIpFiler);
-    }
+    // replaced by process.env.DISABLE_REMOTEIP_FILTERING
+    // if (process.env.TESTING_MODE !== 'true') {
+    //     app.use(middleWareExpressIpFiler);
+    // }
 
     if ('CONTAINER_IP_ADDR' in process.env) {
         app.listen(PORT, process.env.CONTAINER_IP_ADDR, onListening);
