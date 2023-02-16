@@ -34,12 +34,12 @@ const assertIp = async remoteIp => {
     } else {
         // "NGINX_SERVICE_HOST not defined in this process"; 
 	const found = await ipFilter.searchbyname(remoteIp)
-	/* pass if "NGINX_SERVICE_HOST not defined
-		if (!found) {
+	/* pass if "NGINX_SERVICE_HOST not defined */
+	if (!found) {
+		console.error("env NGINX_SERVICE_HOST not defined in this process.env. This is an error.");
 		// by pass 
-        	// throw 403;
-		}
-	*/
+        	// throw 403;	      
+	}
     }
 };
 
