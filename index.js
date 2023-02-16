@@ -34,9 +34,12 @@ const assertIp = async remoteIp => {
     } else {
         // "NGINX_SERVICE_HOST not defined in this process"; 
 	const found = await ipFilter.searchbyname(remoteIp)
-	if (!found) {
-        	throw 403;
-	}
+	/* pass if "NGINX_SERVICE_HOST not defined
+		if (!found) {
+		// by pass 
+        	// throw 403;
+		}
+	*/
     }
 };
 
