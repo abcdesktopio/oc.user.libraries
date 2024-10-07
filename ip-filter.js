@@ -65,23 +65,17 @@ const search = async (ip, seekIp, useCache = true) => {
 };
 
 const searchbyname = async ( ip, useCache = true ) => {
-    // do reverse to the removeip 10-244-2-51.nginx.abcdesktop.svc.cluster.local
+    // do 
+    // reverse to the removeip 10-244-0-72.nginx.abcdesktop.svc.cluster.local
+    // remove 10-244-0-72.
     // get nginx.abcdesktop.svc.cluster.local
     // run nslookup nginx.abcdesktop.svc.cluster.local
-    // Server:              10.96.0.10
-    // Address:     10.96.0.10#53
-    //
-    // Name:        nginx.abcdesktop.svc.cluster.local
-    // Address: 10.244.2.51
-    // Name:        nginx.abcdesktop.svc.cluster.local
-    // Address: 10.244.3.39
-    // Name:        nginx.abcdesktop.svc.cluster.local
-    // Address: 10.244.4.58
-    //
-    // Check if remoteip is in Address
-  
+    // MUST MATCH WITH process.env.NGINX_SERVICE_HOST
+      
     let addresses;
 
+    // for example
+    // ipFilter.searchbyname 10.244.0.72
     if (useCache) {
         if (!dico.has(ip)) {
             dico.set(ip, await dnsPromises.reverse(ip));
@@ -94,15 +88,23 @@ const searchbyname = async ( ip, useCache = true ) => {
     if (addresses && addresses.length < 1)
         return false;
 
+    // addresses= [ '10-244-0-72.nginx.abcdesktop.svc.cluster.local' ]
+
     const fqdn = addresses[0];
-    // remote the hostname from the fqdn
+    // fqdn= 10-244-0-72.nginx.abcdesktop.svc.cluster.local
     const hostname_index = fqdn.indexOf('.') + 1;
     if ( hostname_index == 0 )
         return false;
-    
+
+    // service_fqdn= nginx.abcdesktop.svc.cluster.local
+    // remote the hostname from the fqdn
     const service_fqdn = fqdn.substr(hostname_index);
-    const services = await dnsPromises.resolve(service_fqdn);
-    return services.includes( ip );
+    const services = await dnsPromises.resolve(service_fqdn);    
+    const breturn = services.includes( process.env.NGINX_SERVICE_HOST );
+    if (!breturn) {
+            console.error( 'services=', services, 'does not contain process.env.NGINX_SERVICE_HOST=', process.env.NGINX_SERVICE_HOST);
+    }
+    return breturn;
 };
 
 

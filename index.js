@@ -23,23 +23,28 @@ const assertIp = async remoteIp => {
 	return;
 
     // We check caller IP before accepting connexion
+    // if('NGINX_SERVICE_HOST' in process.env) {
+    //     if (process.env.NGINX_SERVICE_HOST === remoteIp) {
+    //        return;
+    //    }
+    //    const found = await ipFilter.search(process.env.NGINX_SERVICE_HOST, remoteIp)
+    //    if (!found) {
+    //        throw 403;
+    //    }
+    //} else {
+
     if('NGINX_SERVICE_HOST' in process.env) {
-        if (process.env.NGINX_SERVICE_HOST === remoteIp) {
-            return;
-        }
-        const found = await ipFilter.search(process.env.NGINX_SERVICE_HOST, remoteIp)
-        if (!found) {
-            throw 403;
-        }
-    } else {
-        // "NGINX_SERVICE_HOST not defined in this process"; 
-	const found = await ipFilter.searchbyname(remoteIp)
-	/* pass if "NGINX_SERVICE_HOST not defined */
-	if (!found) {
-		console.error("env NGINX_SERVICE_HOST not defined in this process.env. This is an error.");
+
+    	// "NGINX_SERVICE_HOST defined in this process"; 
+    	const found = await ipFilter.searchbyname(remoteIp)
+    	/* pass if "NGINX_SERVICE_HOST not defined */
+    	if (!found) {
+		console.error("This is an error. failed to match ipFilter.searchbyname", remoteIp, 'returns', found);
 		// by pass 
         	// throw 403;	      
-	}
+    	}
+    } else {
+	console.error("This is an error. NGINX_SERVICE_HOST is not defined in this process");
     }
 };
 
