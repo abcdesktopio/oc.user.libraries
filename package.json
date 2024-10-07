@@ -1,6 +1,6 @@
 {
   "name": "oc.user.libraries",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Used by all deamons",
   "author": "Kevin VOYER",
   "license": "GNU GPL 2",
