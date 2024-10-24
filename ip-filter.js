@@ -97,12 +97,18 @@ const searchbyname = async ( ip, useCache = true ) => {
         return false;
 
     // service_fqdn= nginx.abcdesktop.svc.cluster.local
-    // remote the hostname from the fqdn
+    // remove the hostname from the fqdn
     const service_fqdn = fqdn.substr(hostname_index);
     const services = await dnsPromises.resolve(service_fqdn);    
-    const breturn = services.includes( process.env.NGINX_SERVICE_HOST );
+    let breturn = false;
+    if (process.env.NGINX_SERVICE_HOST)
+    	breturn = services.includes( process.env.NGINX_SERVICE_HOST )
+    if (process.env.HTTP_ROUTER_SERVICE_HOST)
+        breturn = services.includes( process.env.HTTP_ROUTER_SERVICE_HOST );
     if (!breturn) {
-            console.error( 'services=', services, 'does not contain process.env.NGINX_SERVICE_HOST=', process.env.NGINX_SERVICE_HOST);
+	console.log( 'fqdn=', fqdn);
+	console.log( 'addresses=', addresses, ' services=', services);
+        console.error( 'services=', services, 'does not contain process.env.NGINX_SERVICE_HOST=', process.env.NGINX_SERVICE_HOST, 'or process.env.HTTP_ROUTER_SERVICE_HOST=' process.env.HTTP_ROUTER_SERVICE_HOST );
     }
     return breturn;
 };

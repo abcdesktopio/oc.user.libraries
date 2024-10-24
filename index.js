@@ -33,26 +33,21 @@ const assertIp = async remoteIp => {
     //    }
     //} else {
 
-    if('NGINX_SERVICE_HOST' in process.env) {
-
-    	// "NGINX_SERVICE_HOST defined in this process"; 
+    if ('NGINX_SERVICE_HOST' in process.env || 'HTTP_ROUTER_SERVICE_HOST' in process.env) {
     	const found = await ipFilter.searchbyname(remoteIp)
-    	/* pass if "NGINX_SERVICE_HOST not defined */
     	if (!found) {
 		console.error("This is an error. failed to match ipFilter.searchbyname", remoteIp, 'returns', found);
 		// by pass 
-        	// throw 403;	      
+        	throw 403;	      
     	}
     } else {
-	console.error("This is an error. NGINX_SERVICE_HOST is not defined in this process");
+	console.error("This is an error. HTTP_ROUTER_SERVICE_HOST or NGINX_SERVICE_HOST is not defined in this process");
     }
 };
 
 const middleWareExpressIpFiler = (req, res, next) => {
     console.log(req.path);
     const remoteIp = req.connection.remoteAddress.replace('::ffff:', '');
-
-    console.log("NGINX_SERVICE_HOST: " + process.env.NGINX_SERVICE_HOST);
     console.log('remoteIp: ' + remoteIp);
     assertIp(remoteIp)
         .then(next)
@@ -95,7 +90,6 @@ const listenDaemonOnContainerIpAddr = (app, PORT, messageOnListening = '') => {
 const hookFastifyIpFilter = async (request) => {
     const remoteIp = request.connection.remoteAddress.replace('::ffff:', '');
     console.log(request.path);
-    console.log("NGINX_SERVICE_HOST: " + process.env.NGINX_SERVICE_HOST);
     console.log('remoteIp: ' + remoteIp);
 
     try {
