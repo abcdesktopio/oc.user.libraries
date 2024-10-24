@@ -106,9 +106,8 @@ const searchbyname = async ( ip, useCache = true ) => {
     if (process.env.HTTP_ROUTER_SERVICE_HOST)
         breturn = services.includes( process.env.HTTP_ROUTER_SERVICE_HOST );
     if (!breturn) {
-	console.log( 'fqdn=', fqdn);
-	console.log( 'addresses=', addresses, ' services=', services);
-        console.error( 'services=', services, 'does not contain process.env.NGINX_SERVICE_HOST=', process.env.NGINX_SERVICE_HOST, 'or process.env.HTTP_ROUTER_SERVICE_HOST=', process.env.HTTP_ROUTER_SERVICE_HOST );
+	console.log( `fqdn=${fqdn} addresses=${addresses} services=${services}`);
+        console.error( `services=${services} does not contain process.env.NGINX_SERVICE_HOST=${process.env.NGINX_SERVICE_HOST} or process.env.HTTP_ROUTER_SERVICE_HOST=${process.env.HTTP_ROUTER_SERVICE_HOST}` );
     }
     return breturn;
 };
