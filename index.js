@@ -136,12 +136,12 @@ const listenDaemonOnContainerIpAddrUsingFastify = async (fastify, PORT, messageO
     });
 
     try {
-	console.log( 'fastify.listen(', PORT, containerIpAddress, ')' );
+	console.log( `fastify.listen( ${PORT}, ${containerIpAddress} )` );
         await fastify.listen(PORT, containerIpAddress);
         console.log(messageOnListening);
     }
     catch (err) {
-	console.log( 'fastify.listen error ' );    
+	console.log( 'fastify.listen error existing process' );    
         fastify.log.error(err);
         process.exit(1);
     }
